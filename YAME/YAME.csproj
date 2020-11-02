@@ -19,6 +19,9 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Omegadrive\Omegadrive.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="m68k">
       <HintPath>..\lib\m68k.dll</HintPath>
     </Reference>
