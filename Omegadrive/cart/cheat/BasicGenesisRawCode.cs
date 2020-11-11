@@ -51,7 +51,7 @@
 
         public override string ToString()
         {
-            return "GenesisRawCode[" + this.ToHexString(this.GetValue(), 4) + ":" + this.ToHexString(this.GetAddress(), 6) + "]";
+            return $"GenesisRawCode[{this.ToHexString(this.GetValue(), 4)}:{this.ToHexString(this.GetAddress(), 6)}]";
         }
     }
 }
