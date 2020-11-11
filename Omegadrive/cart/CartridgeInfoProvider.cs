@@ -75,8 +75,8 @@ namespace Omegadrive.cart
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("ROM header checksum: " + checksum + ", computed: " + computedChecksum + ", match: " + HasCorrectChecksum());
-            sb.Append("\\n").Append("ROM sha1: " + sha1 + " - ROM CRC32: " + crc32);
+            sb.Append($"ROM header checksum: {checksum}, computed: {computedChecksum}, match: {HasCorrectChecksum()}");
+            sb.Append("\\n").Append($"ROM sha1: {sha1} - ROM CRC32: {crc32}");
             return sb.ToString();
         }
     }

@@ -77,13 +77,13 @@ namespace Omegadrive.cart
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("ROM size: " + (romEnd - romStart + 1) + " bytes, start-end: " + romStart.ToString("x") + " - " + romEnd.ToString("x")).Append("\\n");
-            sb.Append("RAM size: " + (ramEnd - ramStart + 1) + " bytes, start-end: " + ramStart.ToString("x") + " - " + ramEnd.ToString("x")).Append("\\n");
-            sb.Append("SRAM flag: " + sramEnabled).Append("\\n");
+            sb.Append($"ROM size: {(romEnd - romStart + 1)} bytes, start-end: {romStart.ToString("x")} - {romEnd.ToString("x")}").Append("\\n");
+            sb.Append($"RAM size: {(ramEnd - ramStart + 1)} bytes, start-end: {ramStart.ToString("x")} - {ramEnd.ToString("x")}").Append("\\n");
+            sb.Append($"SRAM flag: {sramEnabled}").Append("\\n");
             sb.Append(base.ToString());
             if (sramEnabled)
             {
-                sb.Append("\\nSRAM size: " + GetSramSizeBytes() + " bytes, start-end: " + sramStart.ToString("x") + " - " + sramEnd.ToString("x"));
+                sb.Append($"\\nSRAM size: {GetSramSizeBytes()} bytes, start-end: {sramStart.ToString("x")} - {sramEnd.ToString("x")}");
             }
 
             return sb.ToString();
@@ -91,7 +91,7 @@ namespace Omegadrive.cart
 
         public virtual string ToSramCsvString()
         {
-            return sramEnabled + ";" + sramStart.ToString("x") + ";" + sramEnd.ToString("x") + ";" + GetSramSizeBytes();
+            return $"{sramEnabled};{sramStart.ToString("x")};{sramEnd.ToString("x")};{GetSramSizeBytes()}";
         }
 
         public new static MdCartInfoProvider CreateInstance(IMemoryProvider memoryProvider, string rom)
@@ -149,14 +149,14 @@ namespace Omegadrive.cart
                     sramEnd |= Util.ReadRom(memoryProvider, Size.Word, SRAM_END_ADDRESS + 2);
                     if (sramEnd - sramStart < 0)
                     {
-                        LOG.Error("Unexpected SRAM setup: " + ToString());
+                        LOG.Error($"Unexpected SRAM setup: {ToString()}");
                         sramStart = DEFAULT_SRAM_START_ADDRESS;
                         sramEnd = DEFAULT_SRAM_END_ADDRESS;
                     }
                 }
                 else if (!isBackup && isSramType)
                 {
-                    LOG.Warning("Volatile SRAM? " + romName);
+                    LOG.Warning("Volatile SRAM? {romName}", romName);
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace Omegadrive.cart
             adjust &= address > GetSramEnd() && address < MdCartInfoProvider.DEFAULT_SRAM_END_ADDRESS;
             if (adjust)
             {
-                LOG.Warning("Adjusting SRAM limit from: {} to: {}", GetSramEnd().ToString("x"), MdCartInfoProvider.DEFAULT_SRAM_END_ADDRESS.ToString("x"));
+                LOG.Warning("Adjusting SRAM limit from: {sranEnd} to: {realSramEnd}", GetSramEnd().ToString("x"), MdCartInfoProvider.DEFAULT_SRAM_END_ADDRESS.ToString("x"));
                 SetSramEnd(MdCartInfoProvider.DEFAULT_SRAM_END_ADDRESS);
             }
 
