@@ -8,9 +8,6 @@
 
         int[] GetRamData();
 
-        int GetRamSize()
-        {
-            return GetRamData().Length;
-        }
+        int GetRamSize() => GetRamData().Length;
     }
 }

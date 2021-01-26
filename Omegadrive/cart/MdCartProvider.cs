@@ -12,7 +12,7 @@ namespace Omegadrive.cart
 {
     public class MdCartInfoProvider : CartridgeInfoProvider
     {
-        private static int SERIAL_NUMBER_START = 0x180;
+        private static readonly int SERIAL_NUMBER_START = 0x180;
         public static readonly long DEFAULT_SRAM_START_ADDRESS = 0x200000;
         public static readonly long DEFAULT_SRAM_END_ADDRESS = 0x20FFFF;
         public static readonly int DEFAULT_SRAM_BYTE_SIZE = (int)(DEFAULT_SRAM_END_ADDRESS - DEFAULT_SRAM_START_ADDRESS) + 1;
@@ -32,41 +32,23 @@ namespace Omegadrive.cart
         private long sramStart;
         private long sramEnd;
         private bool sramEnabled;
-        private static int SERIAL_NUMBER_END = SERIAL_NUMBER_START + 14;
+        private static readonly int SERIAL_NUMBER_END = SERIAL_NUMBER_START + 14;
         private int romSize;
 
-        public virtual long GetSramEnd()
-        {
-            return sramEnd;
-        }
+        public virtual long GetSramEnd() => sramEnd;
 
-        public virtual int GetSramSizeBytes()
-        {
-            return (int)(sramEnd - sramStart + 1);
-        }
+        public virtual int GetSramSizeBytes() => (int)(sramEnd - sramStart + 1);
 
-        public virtual bool IsSramEnabled()
-        {
-            return sramEnabled;
-        }
+        public virtual bool IsSramEnabled() => sramEnabled;
 
-        public virtual void SetSramEnd(long sramEnd)
-        {
-            this.sramEnd = sramEnd;
-        }
+        public virtual void SetSramEnd(long sramEnd) => this.sramEnd = sramEnd;
 
-        public virtual int GetRomSize()
-        {
-            return romSize;
-        }
+        public virtual int GetRomSize() => romSize;
 
         private static readonly ILogger LOG = StaticLogger.GetLogger();
         private string serial = "MISSING";
 
-        public override int GetChecksumStartAddress()
-        {
-            return CHECKSUM_START_ADDRESS;
-        }
+        public override int GetChecksumStartAddress() => CHECKSUM_START_ADDRESS;
 
         protected override void Init()
         {
@@ -77,42 +59,34 @@ namespace Omegadrive.cart
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"ROM size: {(romEnd - romStart + 1)} bytes, start-end: {romStart.ToString("x")} - {romEnd.ToString("x")}").Append("\\n");
-            sb.Append($"RAM size: {(ramEnd - ramStart + 1)} bytes, start-end: {ramStart.ToString("x")} - {ramEnd.ToString("x")}").Append("\\n");
+            sb.Append($"ROM size: {romEnd - romStart + 1} bytes, start-end: {romStart:x} - {romEnd:x}").Append("\\n");
+            sb.Append($"RAM size: {ramEnd - ramStart + 1} bytes, start-end: {ramStart:x} - {ramEnd:x}").Append("\\n");
             sb.Append($"SRAM flag: {sramEnabled}").Append("\\n");
             sb.Append(base.ToString());
             if (sramEnabled)
             {
-                sb.Append($"\\nSRAM size: {GetSramSizeBytes()} bytes, start-end: {sramStart.ToString("x")} - {sramEnd.ToString("x")}");
+                sb.Append($"\\nSRAM size: {GetSramSizeBytes()} bytes, start-end: {sramStart:x} - {sramEnd:x}");
             }
 
             return sb.ToString();
         }
 
-        public virtual string ToSramCsvString()
-        {
-            return $"{sramEnabled};{sramStart.ToString("x")};{sramEnd.ToString("x")};{GetSramSizeBytes()}";
-        }
+        public virtual string ToSramCsvString() => $"{sramEnabled};{sramStart:x};{sramEnd:x};{GetSramSizeBytes()}";
 
         public new static MdCartInfoProvider CreateInstance(IMemoryProvider memoryProvider, string rom)
         {
-            MdCartInfoProvider provider = new MdCartInfoProvider();
-            provider.memoryProvider = memoryProvider;
-            provider.romName = string.IsNullOrWhiteSpace(rom) ? "norom.bin" : Path.GetFileName(rom);
+            MdCartInfoProvider provider = new MdCartInfoProvider
+            {
+                memoryProvider = memoryProvider,
+                romName = string.IsNullOrWhiteSpace(rom) ? "norom.bin" : Path.GetFileName(rom)
+            };
             provider.Init();
             return provider;
         }
 
-        public virtual bool IsSramUsedWithBrokenHeader(long address)
-        {
-            bool noOverlapBetweenRomAndSram = MdCartInfoProvider.DEFAULT_SRAM_START_ADDRESS > romEnd;
-            return noOverlapBetweenRomAndSram && (address >= MdCartInfoProvider.DEFAULT_SRAM_START_ADDRESS && address <= MdCartInfoProvider.DEFAULT_SRAM_END_ADDRESS);
-        }
+        public virtual bool IsSramUsedWithBrokenHeader(long address) => MdCartInfoProvider.DEFAULT_SRAM_START_ADDRESS > romEnd && (address >= MdCartInfoProvider.DEFAULT_SRAM_START_ADDRESS && address <= MdCartInfoProvider.DEFAULT_SRAM_END_ADDRESS);
 
-        public virtual string GetSerial()
-        {
-            return serial;
-        }
+        public virtual string GetSerial() => serial;
 
         private void InitMemoryLayout(IMemoryProvider memoryProvider)
         {

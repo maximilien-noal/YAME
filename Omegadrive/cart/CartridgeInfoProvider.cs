@@ -22,9 +22,11 @@ namespace Omegadrive.cart
 
         public static CartridgeInfoProvider CreateInstance(IMemoryProvider memoryProvider, string rom)
         {
-            CartridgeInfoProvider provider = new CartridgeInfoProvider();
-            provider.memoryProvider = memoryProvider;
-            provider.romName = string.IsNullOrWhiteSpace(rom) ? "norom.bin" : Path.GetFileName(rom);
+            CartridgeInfoProvider provider = new CartridgeInfoProvider
+            {
+                memoryProvider = memoryProvider,
+                romName = string.IsNullOrWhiteSpace(rom) ? "norom.bin" : Path.GetFileName(rom)
+            };
             provider.Init();
             return provider;
         }

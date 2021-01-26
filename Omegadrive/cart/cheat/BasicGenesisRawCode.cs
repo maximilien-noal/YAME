@@ -2,7 +2,7 @@
 {
     public class BasicGenesisRawCode
     {
-        public static BasicGenesisRawCode INVALID_CODE = new BasicGenesisRawCode(-1, -1);
+        public static BasicGenesisRawCode InvalidCode => new BasicGenesisRawCode(-1, -1);
         private int address;
         private int value;
 

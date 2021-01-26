@@ -22,18 +22,13 @@
 
         public static long GetMaxFromByteCount(int byteCount)
         {
-            switch (byteCount)
+            return byteCount switch
             {
-                case 1:
-                    return Byte.Max;
-
-                case 2:
-                    return Word.Max;
-
-                case 4:
-                    return SizeLong.Max;
-            }
-            return 0;
+                1 => Byte.Max,
+                2 => Word.Max,
+                4 => SizeLong.Max,
+                _ => 0,
+            };
         }
 
         public static bool operator !=(Size left, Size right)

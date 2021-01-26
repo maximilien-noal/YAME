@@ -12,7 +12,7 @@ namespace Omegadrive.util
     public class Util
     {
         private static readonly ILogger LOG = StaticLogger.GetLogger();
-        public static bool verbose = false;
+        public static bool Verbose => false;
         public static readonly int GEN_NTSC_MCLOCK_MHZ = 53693175;
         public static readonly int GEN_PAL_MCLOCK_MHZ = 53203424;
         public static readonly bool BUSY_WAIT;
@@ -20,7 +20,7 @@ namespace Omegadrive.util
         public static readonly double MILLI_IN_NS = TimeSpan.FromMilliseconds(1).TotalMilliseconds * 1000000;
         public static readonly long SLEEP_LIMIT_NS = 10000;
         private static readonly int CACHE_LIMIT = short.MinValue;
-        private static int[] negativeCache = new int[short.MaxValue + 2];
+        private static readonly int[] negativeCache = new int[short.MaxValue + 2];
 
         /// <summary>
         /// bit 1 -> true
@@ -28,10 +28,7 @@ namespace Omegadrive.util
         /// <param name="number"></param>
         /// <param name="position"></param>
         /// <returns></returns>
-        public static bool BitSetTest(long number, int position)
-        {
-            return ((number & (1 << position)) != 0);
-        }
+        public static bool BitSetTest(long number, int position) => ((number & (1 << position)) != 0);
 
         public static long ReadRom(IMemoryProvider memory, Size size, int address)
         {
@@ -53,7 +50,7 @@ namespace Omegadrive.util
                 data |= (uint)memory.ReadRomByte(address + 3);
             }
 
-            LOG.Debug("Read ROM: {}, {}: {}", address, data, size, verbose);
+            LOG.Debug("Read ROM: {}, {}: {}", address, data, size, Verbose);
             return data;
         }
 
@@ -118,7 +115,7 @@ namespace Omegadrive.util
                 data |= (uint)memory.ReadRamByte(address + 2) << 8;
                 data |= (uint)memory.ReadRamByte(address + 3);
             }
-            LOG.Debug("Read RAM: {}, {}: {}", address, data, size, verbose);
+            LOG.Debug("Read RAM: {}, {}: {}", address, data, size, Verbose);
             return data;
         }
 
@@ -141,7 +138,7 @@ namespace Omegadrive.util
                 data |= (uint)sram[(int)address + 2] << 8;
                 data |= (uint)sram[(int)address + 3];
             }
-            LOG.Debug("Read SRAM: {}, {}: {}", address, data, size, verbose);
+            LOG.Debug("Read SRAM: {}, {}: {}", address, data, size, Verbose);
             return data;
         }
 
@@ -163,13 +160,10 @@ namespace Omegadrive.util
                 sram[address + 2] = (int)((data >> 8) & 0xFF);
                 sram[address + 3] = (int)(data & 0xFF);
             }
-            LOG.Debug("Write SRAM: {}, {}: {}", address, data, size, verbose);
+            LOG.Debug("Write SRAM: {}, {}: {}", address, data, size, Verbose);
         }
 
-        public static string ComputeCrc32(IMemoryRom rom)
-        {
-            return ComputeCrc32(rom.GetRomData());
-        }
+        public static string ComputeCrc32(IMemoryRom rom) => ComputeCrc32(rom.GetRomData());
 
         public static string ToStringValue(Array data)
         {

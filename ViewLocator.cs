@@ -1,6 +1,8 @@
 using System;
+
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+
 using YAME.ViewModels;
 
 namespace YAME
@@ -24,9 +26,6 @@ namespace YAME
             }
         }
 
-        public bool Match(object data)
-        {
-            return data is ViewModelBase;
-        }
+        public bool Match(object data) => data is ViewModelBase;
     }
 }

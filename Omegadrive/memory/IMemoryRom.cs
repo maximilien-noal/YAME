@@ -6,9 +6,6 @@
 
         int[] GetRomData();
 
-        int GetRomSize()
-        {
-            return GetRomData().Length;
-        }
+        int GetRomSize() => GetRomData().Length;
     }
 }

@@ -25,25 +25,13 @@ namespace Omegadrive.memory
         {
         }
 
-        public static IMemoryProvider CreateGenesisInstance()
-        {
-            return CreateInstance(new int[1], M68K_RAM_SIZE);
-        }
+        public static IMemoryProvider CreateGenesisInstance() => CreateInstance(new int[1], M68K_RAM_SIZE);
 
-        public static IMemoryProvider CreateSg1000Instance()
-        {
-            return CreateInstance(new int[1], SG1K_Z80_RAM_SIZE);
-        }
+        public static IMemoryProvider CreateSg1000Instance() => CreateInstance(new int[1], SG1K_Z80_RAM_SIZE);
 
-        public static IMemoryProvider CreateMsxInstance()
-        {
-            return CreateInstance(new int[1], MSX_Z80_RAM_SIZE);
-        }
+        public static IMemoryProvider CreateMsxInstance() => CreateInstance(new int[1], MSX_Z80_RAM_SIZE);
 
-        public static IMemoryProvider CreateSmsInstance()
-        {
-            return CreateInstance(new int[1], SMS_Z80_RAM_SIZE);
-        }
+        public static IMemoryProvider CreateSmsInstance() => CreateInstance(new int[1], SMS_Z80_RAM_SIZE);
 
         public static IMemoryProvider CreateInstance(int[] rom, int ramSize)
         {
@@ -101,14 +89,8 @@ namespace Omegadrive.memory
             this.rom[CHECKSUM_START_ADDRESS + 1] = (byte)(value & 0xFF);
         }
 
-        public int[] GetRomData()
-        {
-            return rom;
-        }
+        public int[] GetRomData() => rom;
 
-        public int[] GetRamData()
-        {
-            return ram;
-        }
+        public int[] GetRamData() => ram;
     }
 }
