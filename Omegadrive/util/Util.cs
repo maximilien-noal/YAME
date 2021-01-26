@@ -1,6 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.Checksum;
 
-using Omegadrive.logs;
+using Omegadrive.Logging;
 using Omegadrive.memory;
 
 using Serilog;
